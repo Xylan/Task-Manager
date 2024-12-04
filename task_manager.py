@@ -115,6 +115,8 @@ root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 root.attributes('-topmost', True)
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.overrideredirect(True)  # Remove minimize, maximize, and close buttons
+root.attributes('-toolwindow', True)
+root.resizable(False, False)
 Label(root, text="Complete these tasks before playing games:", font=("Helvetica", 14)).pack(pady=10)
 
 # Task status and UI elements
