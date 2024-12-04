@@ -1,0 +1,5 @@
+json
+psutil
+tkinter
+importlib
+winshell
