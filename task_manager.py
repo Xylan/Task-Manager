@@ -59,7 +59,7 @@ def kill_game_process(pid):
     process.terminate()  # Use terminate() instead of kill() to see if it works better
     try:
       process.wait(timeout=3)
-        print(f"Process {pid} terminated successfully.")
+      print(f"Process {pid} terminated successfully.")
       except psutil.TimeoutExpired:
         print(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
         process.kill()  # Forcefully kill the process
