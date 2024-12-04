@@ -59,17 +59,17 @@ def kill_game_process(pid):
     process.terminate()  # Use terminate() instead of kill() to see if it works better
     try:
       process.wait(timeout=3)
-      print(f"Process {pid} terminated successfully.")
+      show_error_message(f"Process {pid} terminated successfully.")
     except psutil.TimeoutExpired:
-      print(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
+      show_error_message(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
       process.kill()  # Forcefully kill the process
-      print(f"Process {pid} forcibly killed.")
+      show_error_message(f"Process {pid} forcibly killed.")
   except psutil.NoSuchProcess:
-    print(f"Process {pid} does not exist.")
+    show_error_message(f"Process {pid} does not exist.")
   except psutil.AccessDenied:
-    print(f"Access denied to process {pid}.")
+    show_error_message(f"Access denied to process {pid}.")
   except Exception as e:
-    print(f"Error killing process {pid}: {e}")
+    show_error_message(f"Error killing process {pid}: {e}")
     
 # Prevent window closure without task completion
 def on_closing():
@@ -106,7 +106,8 @@ def update_task_status(task, status):
 def show_congratulations():
     messagebox.showinfo("Congratulations", "All tasks completed! You are now allowed to play games.")
     root.destroy()  # Close the app
-
+def show_error_message(message):
+    messagebox.showerror("Error", message)
 # Refresh UI
 def refresh_ui():
     for i, task in enumerate(TASKS):
