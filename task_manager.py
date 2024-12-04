@@ -53,11 +53,25 @@ def is_game_running():
 
 def kill_game_process(pid):
   try:
-    os.kill(pid, 9)
+    # Check if the process is still running before attempting to kill it
+    process = psutil.Process(pid)
+    print(f"Attempting to kill process {pid} with name: {process.name()}")
+    process.terminate()  # Use terminate() instead of kill() to see if it works better
+    try:
+      process.wait(timeout=3)
+        print(f"Process {pid} terminated successfully.")
+      except psutil.TimeoutExpired:
+        print(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
+        process.kill()  # Forcefully kill the process
+        print(f"Process {pid} forcibly killed.")
+  except psutil.NoSuchProcess:
+    print(f"Process {pid} does not exist.")
+  except psutil.AccessDenied:
+    print(f"Access denied to process {pid}.")
   except Exception as e:
     print(f"Error killing process {pid}: {e}")
+    
 # Prevent window closure without task completion
-
 def on_closing():
   if not all_tasks_completed():
     messagebox.showwarning("Tasks Incomplete", "You must complete all tasks before exiting.")
