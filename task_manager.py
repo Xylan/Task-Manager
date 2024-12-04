@@ -67,7 +67,6 @@ def on_closing():
 # Check if tasks are completed
 def all_tasks_completed():
     if all(task_status[task] for task in TASKS):
-        show_congratulations()  # Show popup and close the app
         return True
     return False
 
@@ -87,6 +86,8 @@ def update_task_status(task, status):
   task_status[task] = bool(status)
   save_task_status()
   refresh_ui()
+  if all_tasks_completed():
+    show_congratulations()  # Show popup and close the app
 # Function to show the congratulations popup and close the app
 def show_congratulations():
     messagebox.showinfo("Congratulations", "All tasks completed! You are now allowed to play games.")
