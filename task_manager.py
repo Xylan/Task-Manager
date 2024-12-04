@@ -12,14 +12,25 @@ import atexit
 # Constants
 TASK_FILE = "task_list.json"
 GAMES_FILE = "games_to_block.json"
+#global variables
 TASKS = ["First", "Do your homework"]
-
+GAMES_TO_BLOCK = [
+                    "Steam.exe",
+                    "EpicGamesLauncher.exe",
+                    "Origin.exe",
+                    "UbisoftConnect.exe",
+                    "Battle.net.exe",
+                    "GalaxyClient.exe",
+                    "Roblox.exe",
+                    "Minecraft.exe"
+                ]
 
 # Function to install dependencies using pip and re-import
 def install_dependencies():
     required_packages = ['winshell', 'psutil', 'tkinter', 'json', 'importlib']
     missing_packages = []
     try:
+        import importlib
         import winshell
         import psutil
         import tkinter
@@ -37,9 +48,6 @@ def install_dependencies():
         import importlib
         for package in missing_packages:
             importlib.import_module(package)
-
-
-
 
 # Functions to ensure the program runs on startup
 def add_to_startup():
@@ -60,21 +68,9 @@ def add_to_startup():
 def load_games_to_block():
     if not os.path.exists(GAMES_FILE):
         with open(GAMES_FILE, "w") as f:
-            json.dump(
-                [
-                    "Steam.exe",
-                    "EpicGamesLauncher.exe",
-                    "Origin.exe",
-                    "UbisoftConnect.exe",
-                    "Battle.net.exe",
-                    "GalaxyClient.exe",
-                    "Roblox.exe",
-                    "Minecraft.exe"
-                ],f)
+            json.dump(GAMES_TO_BLOCK,f)
     with open(GAMES_FILE, "r") as f:
         return json.load(f)
-
-GAMES_TO_BLOCK = load_games_to_block()
 
 # Check and block games
 def is_game_running():
@@ -122,6 +118,8 @@ def refresh_ui():
    for i, task in enumerate(TASKS):
        task_labels[i].config(text=f"{task} - {'Completed' if task_status[task] else 'Incomplete'}")
 
+
+
 # Main UI setup
 root = Tk()
 root.title("Task Gatekeeper")
@@ -155,8 +153,8 @@ task_entry.pack()
 Button(root, text="Confirm Task", command=confirm_task).pack(pady=10)
 
 # Warning message
-   Label(root, text="WARNING: Playing games without completing all of these tasks will cause you to forfet your gaming privlidges",
-   font=("Arial", 12), fg="red").pack(pady=10)
+Label(root, text="WARNING: Playing games without completing all of these tasks will cause you to forfet your gaming privlidges",
+font=("Arial", 12), fg="red").pack(pady=10)
 
 # Background game monitoring
 def monitor_games():
@@ -167,6 +165,7 @@ def monitor_games():
    root.after(5000, monitor_games)
 
 # Ensure startup and launch monitoring
+GAMES_TO_BLOCK = load_games_to_block()
 add_to_startup()
 monitor_games()
 refresh_ui()
