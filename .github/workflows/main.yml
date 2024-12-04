@@ -34,6 +34,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: task-manager-exe
+
       - name: Create a new tag
         id: create_tag
         run: |
@@ -46,8 +51,8 @@ jobs:
       - name: Create a GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.run_number }}  # Make sure this matches the tag created
-          files: dist/task_manager.exe
+          tag_name: ${{ github.run_number }}  # Ensure this matches the tag created
+          files: task_manager.exe  # The downloaded file's name (no path required)
           name: Release ${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
