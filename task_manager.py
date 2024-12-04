@@ -8,6 +8,7 @@ from tkinter import messagebox
 from pathlib import Path
 import subprocess
 import atexit
+import psutil
 
 # Constants
 TASK_FILE = "task_list.json"
@@ -24,30 +25,6 @@ GAMES_TO_BLOCK = [
                     "Roblox.exe",
                     "Minecraft.exe"
                 ]
-
-# Function to install dependencies using pip and re-import
-def install_dependencies():
-    required_packages = ['winshell', 'psutil', 'tkinter', 'json', 'importlib']
-    missing_packages = []
-    try:
-        import importlib
-        import winshell
-        import psutil
-        import tkinter
-        import json
-    except ImportError as e:
-        missing_packages.append(str(e).split("'")[1])
-
-    if missing_packages:
-        messagebox.showinfo("Installing Dependencies", "Installing missing dependencies...")
-        for package in missing_packages:
-            subprocess.check_call(['pip', 'install', package])
-        messagebox.showinfo("Success", "Dependencies installed successfully!")
-
-        # Re-import modules to use them in the current script
-        import importlib
-        for package in missing_packages:
-            importlib.import_module(package)
 
 # Functions to ensure the program runs on startup
 def add_to_startup():
