@@ -2,12 +2,8 @@ import os
 import sys
 import json
 import psutil
-import ctypes
 from tkinter import Tk, Label, Checkbutton, IntVar, messagebox
 from pathlib import Path
-import subprocess
-import atexit
-import psutil
 import winshell
 
 # Constants
@@ -96,12 +92,21 @@ def refresh_ui():
     
 # Main UI setup
 root = Tk()
+# Get the screen width and height
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+# Set the desired window width and height
+window_width = 800
+window_height = 600
+# Calculate the x and y positions to center the window
+x_position = (screen_width // 2) - (window_width // 2)
+y_position = (screen_height // 2) - (window_height // 2)
+
 root.title("Task Gatekeeper")
-root.geometry("800x600")
+root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 root.attributes('-topmost', True)
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.overrideredirect(True)  # Remove minimize, maximize, and close buttons
-root.attributes('-toolwindow', True)  # Prevent shell window from opening
 Label(root, text="Complete these tasks before playing games:", font=("Helvetica", 14)).pack(pady=10)
 
 # Task status and UI elements
