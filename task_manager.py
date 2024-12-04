@@ -106,7 +106,7 @@ Label(root, text="Complete these tasks before playing games:", font=("Helvetica"
 
 # Task status and UI elements
 task_status = load_task_status()
-task_labels = []
+vars = []
 for task in TASKS:
   var = IntVar(value=1 if task_status[task] else 0)
   vars.append(var)
