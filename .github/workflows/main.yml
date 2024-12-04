@@ -40,20 +40,11 @@ jobs:
         with:
           name: task-manager-exe
 
-      - name: Create a new tag
-        id: create_tag
-        run: |
-          NEW_TAG="v${{ github.run_number }}"
-          git tag $NEW_TAG
-          git push origin $NEW_TAG
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create a GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.run_number }}  # Ensure this matches the tag created
-          files: task_manager.exe  # The downloaded file's name (no path required)
-          name: Release ${{ github.run_number }}
+          tag_name: "Release"  
+          files: task_manager.exe
+          name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
