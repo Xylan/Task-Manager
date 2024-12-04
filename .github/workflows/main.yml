@@ -1,0 +1,21 @@
+name: Windows Build and Packaging
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+      - name: Build Executable
+        run: pyinstaller --onefile task_manager.py
