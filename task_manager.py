@@ -146,7 +146,7 @@ def monitor_games():
 
 # Ensure startup and launch monitoring
 GAMES_TO_BLOCK = load_games_to_block()
-add_to_startup()
+#add_to_startup() #disabled for testing, reenable when ready
 monitor_games()
 refresh_ui()
 
