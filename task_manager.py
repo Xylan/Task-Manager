@@ -60,10 +60,10 @@ def kill_game_process(pid):
     try:
       process.wait(timeout=3)
       print(f"Process {pid} terminated successfully.")
-      except psutil.TimeoutExpired:
-        print(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
-        process.kill()  # Forcefully kill the process
-        print(f"Process {pid} forcibly killed.")
+    except psutil.TimeoutExpired:
+      print(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
+      process.kill()  # Forcefully kill the process
+      print(f"Process {pid} forcibly killed.")
   except psutil.NoSuchProcess:
     print(f"Process {pid} does not exist.")
   except psutil.AccessDenied:
