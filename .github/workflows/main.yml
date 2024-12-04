@@ -28,13 +28,14 @@ jobs:
     needs: build-windows
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Grants permissions for creating releases and pushing tags
+      contents: write  # Necessary for creating releases and pushing tags
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Create a new tag
+        id: create_tag
         run: |
           NEW_TAG="v${{ github.run_number }}"
           git tag $NEW_TAG
@@ -45,7 +46,8 @@ jobs:
       - name: Create a GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ github.run_number }}
+          tag_name: ${{ steps.create_tag.outputs.NEW_TAG }}  # Correct input for the tag
           files: dist/task_manager.exe
+          name: Release ${{ steps.create_tag.outputs.NEW_TAG }}  # Optional: name for the release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
