@@ -43,33 +43,15 @@ def load_games_to_block():
       json.dump(GAMES_TO_BLOCK,f)
   with open(GAMES_FILE, "r") as f:
     return json.load(f)
-
-# Check and block games
-def is_game_running():
-  for process in psutil.process_iter(['pid', 'name']):
-    if process.info['name'] in GAMES_TO_BLOCK:
-      return process.info['pid']
-  return None
-
-def kill_game_process(pid):
-  try:
-    # Check if the process is still running before attempting to kill it
-    process = psutil.Process(pid)
-    print(f"Attempting to kill process {pid} with name: {process.name()}")
-    process.terminate()  # Use terminate() instead of kill() to see if it works better
-    try:
-      process.wait(timeout=3)
-      show_error_message(f"Process {pid} terminated successfully.")
-    except psutil.TimeoutExpired:
-      show_error_message(f"Process {pid} did not terminate within the timeout period. Forcing kill.")
-      process.kill()  # Forcefully kill the process
-      show_error_message(f"Process {pid} forcibly killed.")
-  except psutil.NoSuchProcess:
-    show_error_message(f"Process {pid} does not exist.")
-  except psutil.AccessDenied:
-    show_error_message(f"Access denied to process {pid}.")
-  except Exception as e:
-    show_error_message(f"Error killing process {pid}: {e}")
+#
+def kill_all_matching_processes(target_names):
+    for process in psutil.process_iter(['pid', 'name']):
+        try:
+            if process.info['name'] in target_names:
+                process.kill()  # Terminate the process
+                process.wait()  # Wait for the process to terminate
+        except Exception as e:
+            pass  # Handle cases where the process doesn't exist or we can't access it
     
 # Prevent window closure without task completion
 def on_closing():
@@ -106,8 +88,7 @@ def update_task_status(task, status):
 def show_congratulations():
     messagebox.showinfo("Congratulations", "All tasks completed! You are now allowed to play games.")
     root.destroy()  # Close the app
-def show_error_message(message):
-    messagebox.showerror("Error", message)
+
 # Refresh UI
 def refresh_ui():
     for i, task in enumerate(TASKS):
@@ -159,11 +140,9 @@ Label(
 
 # Background game monitoring
 def monitor_games():
-   pid = is_game_running()
-   if pid and not all_tasks_completed():
-       kill_game_process(pid)
-       messagebox.showwarning("Blocked", "Game blocked! Complete your tasks first.")
-   root.after(5000, monitor_games)
+  if not all_tasks_completed():
+     kill_all_matching_processes(GAMES_TO_BLOCK)
+  root.after(5000, monitor_games)
 
 # Ensure startup and launch monitoring
 GAMES_TO_BLOCK = load_games_to_block()
