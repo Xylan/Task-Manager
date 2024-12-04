@@ -3,8 +3,7 @@ import sys
 import json
 import psutil
 import ctypes
-from tkinter import Tk, Label, Button, Entry, StringVar, END
-from tkinter import messagebox
+from tkinter import Tk, Label, Checkbutton, IntVar, messagebox
 from pathlib import Path
 import subprocess
 import atexit
@@ -38,8 +37,8 @@ def add_to_startup():
         shortcut.path = script_path
         shortcut.working_directory = os.path.dirname(script_path)
         shortcut.description = "Task Gatekeeper"
-    except ImportError:
-      messagebox.showerror("Missing Dependency", "Please install 'winshell' package: pip install winshell")
+    except Exception as e:
+      pass
 
 # Check and block games
 def load_games_to_block():
@@ -101,12 +100,13 @@ root.title("Task Gatekeeper")
 root.geometry("800x600")
 root.attributes('-topmost', True)
 root.protocol("WM_DELETE_WINDOW", on_closing)
+root.overrideredirect(True)  # Remove minimize, maximize, and close buttons
+root.attributes('-toolwindow', True)  # Prevent shell window from opening
 Label(root, text="Complete these tasks before playing games:", font=("Helvetica", 14)).pack(pady=10)
 
 # Task status and UI elements
 task_status = load_task_status()
 task_labels = []
-
 for task in TASKS:
   var = IntVar(value=1 if task_status[task] else 0)
   vars.append(var)
