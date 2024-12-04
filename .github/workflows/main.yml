@@ -27,6 +27,8 @@ jobs:
   release:
     needs: build-windows
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grants permissions for creating releases and pushing tags
 
     steps:
       - name: Checkout code
