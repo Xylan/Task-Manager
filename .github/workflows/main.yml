@@ -18,7 +18,7 @@ jobs:
       - name: Install PyInstaller
         run: pip install pyinstaller
       - name: Build Executable
-        run: pyinstaller --onefile task_manager.py
+        run: pyinstaller --noconsole --onefile task_manager.py
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
