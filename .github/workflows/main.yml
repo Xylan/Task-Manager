@@ -28,7 +28,7 @@ jobs:
     needs: build-windows
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Necessary for creating releases and pushing tags
+      contents: write  # Required to create a release and push tags
 
     steps:
       - name: Checkout code
@@ -46,8 +46,8 @@ jobs:
       - name: Create a GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.create_tag.outputs.NEW_TAG }}  # Correct input for the tag
+          tag_name: ${{ github.run_number }}  # Make sure this matches the tag created
           files: dist/task_manager.exe
-          name: Release ${{ steps.create_tag.outputs.NEW_TAG }}  # Optional: name for the release
+          name: Release ${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
