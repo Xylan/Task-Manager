@@ -56,7 +56,7 @@ def is_game_running():
            return process.info['pid']
    return None
 
-def kill_game_process(pid):l
+def kill_game_process(pid):
    try:
        os.kill(pid, 9)
    except Exception as e:
