@@ -41,9 +41,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a GitHub release
-        uses: gh-release/gh-release@v2
+        uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ steps.create_tag.outputs.NEW_TAG }}  # Use the tag created in the previous step
-          files: dist/task_manager.exe  # Path to the built file
+          tag: ${{ github.run_number }}
+          files: dist/task_manager.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
