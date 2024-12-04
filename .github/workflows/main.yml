@@ -30,18 +30,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Create a new tag
         run: |
-          NEW_TAG="v${{ github.run_number }}"  # Creates a unique version number for each run
+          NEW_TAG="v${{ github.run_number }}"
           git tag $NEW_TAG
           git push origin $NEW_TAG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a GitHub release
-        uses: gh-release/gh-release@v1
+        uses: gh-release/gh-release@v2
         with:
           tag: ${{ steps.create_tag.outputs.NEW_TAG }}  # Use the tag created in the previous step
           files: dist/task_manager.exe  # Path to the built file
