@@ -6,6 +6,14 @@ from tkinter import Tk, Label, Checkbutton, IntVar, messagebox
 from pathlib import Path
 import winshell
 
+from update_manager import update_task_manager
+CURRENT_VERSION = "1.0.0"
+
+if __name__ == "__main__":
+    update_task_manager(CURRENT_VERSION)
+    print("Running Task Manager...")
+    # Main app logic here
+
 # Constants
 TASK_FILE = "task_list.json"
 GAMES_FILE = "games_to_block.json"
