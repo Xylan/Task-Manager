@@ -141,7 +141,7 @@ for task in TASKS:
 # Warning message
 Label(
   root,
-  text="WARNING: Playing games without completing all of these tasks will cause you to forfeit your gaming privileges",
+  text="WARNING: Playing games without completing all of these tasks will cause you to forfeit your gaming privileges \n" + f"{CURRENT_VERSION}",
   font=("Arial", 12),
   fg="red"
   ).pack(pady=10)
