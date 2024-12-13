@@ -17,6 +17,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Install PyInstaller
         run: pip install pyinstaller
+      - name: Install PsUtil
+        run: pip install psutil
       - name: Build Executable
         run: pyinstaller --noconsole --onefile task_manager.py
       - name: Upload Artifact
