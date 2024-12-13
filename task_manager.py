@@ -7,7 +7,7 @@ from pathlib import Path
 import winshell
 
 from update_manager import update_task_manager
-CURRENT_VERSION = "1.0.0"
+CURRENT_VERSION = "0.1.0"
 
 if __name__ == "__main__":
     update_task_manager(CURRENT_VERSION)
