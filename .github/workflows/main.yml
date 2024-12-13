@@ -39,13 +39,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: task-manager-exe
-      - name: Install PsUtil
-        run: pip install psutil
-        
+
       - name: Get version from Python file
         id: get_version
         run: |
-          VERSION=$(python -c "import task_manager; print(task_manager.CURRENT_VERSION)")
+          VERSION=$(grep -oP '(?<=CURRENT_VERSION = ")[^"]*' task_manager.py)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Create a GitHub release
